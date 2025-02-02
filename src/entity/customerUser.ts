@@ -24,7 +24,7 @@ export class CustomerUser {
      
     @BeforeInsert()
      async hashPassword() {
-        this.password =  await bcrypt.hash(this.password,10,)
+        this.password =  await bcrypt.hash(this.password,10)
     }
 
     async comparePassword (plainPassword: string):Promise<boolean>{
