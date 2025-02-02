@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert } from "typeorm"
+import bcrypt = require('bcrypt');
 
 @Entity('tbl_customer_user')
 export class CustomerUser {
@@ -20,4 +21,13 @@ export class CustomerUser {
 
     @Column({name: 'role'})
     role: string
+     
+    @BeforeInsert()
+     async hashPassword() {
+        this.password =  await bcrypt.hash(this.password,10,)
+    }
+
+    async comparePassword (plainPassword: string):Promise<boolean>{
+        return await bcrypt.compare(plainPassword, this.password);
+    }
 }
